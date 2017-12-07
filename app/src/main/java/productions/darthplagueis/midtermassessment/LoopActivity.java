@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 public class LoopActivity extends AppCompatActivity {
@@ -17,9 +18,12 @@ public class LoopActivity extends AppCompatActivity {
 
         textView = (TextView) findViewById(R.id.loop_textview);
 
-        MyTask myTask = new MyTask();
-        int initialize = 0;
-        myTask.execute(initialize);
+        Intent intent = new Intent(LoopActivity.this, LoginActivity.class);
+        startActivity(intent);
+
+//        MyTask myTask = new MyTask();
+//        int initialize = 0;
+//        myTask.execute(initialize);
     }
 
     private class MyTask extends AsyncTask<Integer, Integer, Integer> {
@@ -33,7 +37,7 @@ public class LoopActivity extends AppCompatActivity {
         protected Integer doInBackground(Integer[] values) {
 
             while(values[0] <= 100000) {
-                publishProgress(values);
+                publishProgress();
             }
             return values[0];
         }
@@ -41,13 +45,16 @@ public class LoopActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Integer... progress) {
             textView.setText("Loops completed: " + progress.toString());
+            Log.d("loop", "progressupdate");
         }
 
         @Override
         protected void onPostExecute(Integer result) {
-            textView.setText("Loops completed: " + result.toString());
+            textView.setText("Loops completeddd: " + result.toString());
+            Log.d("loop", "postexecute");
             Intent intent = new Intent(LoopActivity.this, LoginActivity.class);
             startActivity(intent);
+
         }
     }
 }
